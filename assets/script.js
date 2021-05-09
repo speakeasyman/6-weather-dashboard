@@ -47,6 +47,7 @@ searchBtn[0].addEventListener('click', function(){
                                         $('#temperature'+[i]).text((((data.daily[i].temp.max-273)*1.8)+32).toFixed(2));
                                         $('#wind'+[i]).text(data.daily[i].wind_speed);
                                         $('#humidity'+[i]).text(data.daily[i].humidity);
+                                        $('#cityDate'+[i]).text(moment().add([i]*1, 'days').format('MM/DD/YYYY'));
                                     }
                                     console.log(data.daily);
                                     console.log('fivedays of temps', fiveDay);
