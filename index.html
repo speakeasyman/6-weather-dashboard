@@ -22,8 +22,8 @@
     <div >
         <h1>Weather Dashboard </h1>
     </div>
-    <main>
-        <div class="sidebar">
+    <main class="d-flex">
+        <div class="sidebar col-3">
 
             <div class="card" style="width: 18rem;">
                 
@@ -40,8 +40,18 @@
                 
             </div>
         </div>
-        <section class="body">
-
+        <section class="body col-9">
+          <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title" id="cityDate">Card title</h5>
+              <ul>
+                <li>Temp: <span id="temperature"></span>F</li>
+                <li>Wind: <span id="wind"></span>MPH</li>
+                <li>Humidity: <span id="humidity"></span>%</li>
+                <li>UV Index: <span id="uvIndex"></span>F</li>
+              </ul>
+            </div>
+          </div>
         </section>
     </main>
     

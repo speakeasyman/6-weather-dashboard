@@ -14,11 +14,26 @@ searchBtn[0].addEventListener('click', function(){
                 response.json().then(function (data){
                     console.log(`temp`, temp);
                     console.log(`data`, data);
+                    windSpeed = data.current.wind_speed + ' ';
+                    humidity = data.current.humidity + ' ';
+                    uvIndex = data.current.uvi;
+                    tempK = data.current.temp;
+                    tempC = tempK - 273;
+                    tempF = (tempC*1.8) + 32;
+                    console.log('tempC', tempC);
+                    
 
+                    dailyWeather();
                 })
             }
         })
-
 });
 
 
+function dailyWeather() {
+    $('#temperature').text(tempF.toFixed(2));
+    $('#wind').text(windSpeed);
+    $('#humidity').text(humidity);
+    $('#uvIndex').text(uvIndex);
+
+}
