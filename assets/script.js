@@ -27,27 +27,31 @@ searchBtn[0].addEventListener('click', function(){
                 city = data2.name
                 
                 var latlonURL = 'http://api.openweathermap.org/data/2.5/onecall?lat=-'+lat+'&lon='+lon+'&exclude=minutely,hourly&appid=f516944114208483a59c1cf67915c8cd'
-                    var temp = fetch(latlonURL)
-                        .then(function (response){
-                            if (response.ok) {
-                                response.json().then(function (data){
-                                    console.log(`temp`, temp);
-                                    console.log(`data`, data);
-                                    windSpeed = data.current.wind_speed + ' ';
-                                    humidity = data.current.humidity + ' ';
-                                    uvIndex = data.current.uvi;
-                                    tempK = data.current.temp;
-                                    tempC = tempK - 273;
-                                    tempF = (tempC*1.8) + 32;
-                                    console.log('tempC', tempC);                    
-                                    date = moment().format('MM/DD/YYYY');
-                                    // icon = data.current.weater.icon;
-                                    var fiveDay = [];
-                                    for (let i = 1; i < 6; i++) {
+                var temp = fetch(latlonURL)
+                .then(function (response){
+                    if (response.ok) {
+                        response.json().then(function (data){
+                            console.log(`temp`, temp);
+                            console.log(`data`, data);
+                            windSpeed = data.current.wind_speed + ' ';
+                            humidity = data.current.humidity + ' ';
+                            uvIndex = data.current.uvi;
+                            tempK = data.current.temp;
+                            tempC = tempK - 273;
+                            tempF = (tempC*1.8) + 32;
+                            console.log('tempC', tempC);                    
+                            date = moment().format('MM/DD/YYYY');
+                            iconCurrent = data.current.weather[0].icon
+                            var fiveDay = [];
+                            for (let i = 1; i < 6; i++) {
+                                icon = data.daily[i].weather[0].icon;
+                                var iconURL = 'http://openweathermap.org/img/wn/'+icon+'@2x.png'
+                                        console.log('chosen icon',icon);
                                         $('#temperature'+[i]).text((((data.daily[i].temp.max-273)*1.8)+32).toFixed(2));
                                         $('#wind'+[i]).text(data.daily[i].wind_speed);
                                         $('#humidity'+[i]).text(data.daily[i].humidity);
                                         $('#cityDate'+[i]).text(moment().add([i]*1, 'days').format('MM/DD/YYYY'));
+                                        $('#wicon'+[i]).attr('src', iconURL);
                                     }
                                     console.log(data.daily);
                                     console.log('fivedays of temps', fiveDay);
@@ -63,11 +67,13 @@ searchBtn[0].addEventListener('click', function(){
 
 
 function dailyWeather() {
+    var currentIconURL = 'http://openweathermap.org/img/wn/'+iconCurrent+'@2x.png'
     $('#temperature').text(tempF.toFixed(2));
     $('#wind').text(windSpeed);
     $('#humidity').text(humidity);
     $('#uvIndex').text(uvIndex);    
     $('#cityDate').text(city + '  '+date + ' ');
+    $('#wicon0').attr('src', currentIconURL);
 }
 function getInput() {
     cityName = $('#cityName').value
