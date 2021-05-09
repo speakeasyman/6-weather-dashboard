@@ -1,61 +1,64 @@
-var apiKey = '&appid=f516944114208483a59c1cf67915c8cd';
-var lat = '35.99';
-var lon ='78.90';
+var lat = '';
+var lon ='';
 var weatherURL = 'api.openweathermap.org/data/2.5/weather?lat=';
 var searchBtn = $('#search');
-var testURL = 'http://api.openweathermap.org/data/2.5/onecall?lat=35.99&lon=-78.90&exclude=minutely,hourly&appid=f516944114208483a59c1cf67915c8cd'
 var dateTime = null;
 console.log(searchBtn)
 var temperatureF = '';
+var cityName = $('#cityName');
+var apiKey = '&appid=f516944114208483a59c1cf67915c8cd';
+var tempURL = 'http://api.openweathermap.org/data/2.5/onecall?lat=35.99&lon=-78.90&exclude=minutely,hourly&appid=f516944114208483a59c1cf67915c8cd'
+
+
 
 searchBtn[0].addEventListener('click', function(){
-    var temp = fetch(testURL)
-        .then(function (response){
-            if (response.ok) {
-                response.json().then(function (data){
-                    console.log(`temp`, temp);
-                    console.log(`data`, data);
-                    windSpeed = data.current.wind_speed + ' ';
-                    humidity = data.current.humidity + ' ';
-                    uvIndex = data.current.uvi;
-                    tempK = data.current.temp;
-                    tempC = tempK - 273;
-                    tempF = (tempC*1.8) + 32;
-                    console.log('tempC', tempC);
-                    city = 'Uptopia';
-                    date = moment().format('MM/DD/YYYY');
-                    // icon = data.current.weater.icon;
-                    var fiveDay = [];
-                    for (let i = 1; i < 6; i++) {
-                        $('#temperature'+[i]).text((((data.daily[i].temp.max-273)*1.8)+32).toFixed(2));
-                        $('#wind'+[i]).text(data.daily[i].wind_speed);
-                        $('#humidity'+[i]).text(data.daily[i].humidity);
-                        //  fiveDay[i] = {
-                        //     temperature: data.daily[i].temp.max,
-                        //     wind: data.daily[i].wind_speed,
-                        //     humidity: data.daily[i].humidity,
-                        //     icon: data.daily[i].weather[0].icon
-                        // };
-                        
-                        
-                        
-                        
-                        
-                    }
-                    console.log(data.daily);
-                    console.log('fivedays of temps', fiveDay);
-                    
-                   
-                    
-
-                    
-                    
-
-                    dailyWeather();
+    city = cityName[0].value.trim()
+    console.log(city);
+    var testURL = 'https://api.openweathermap.org/data/2.5/weather?q='+city+'&units=imperial'+apiKey
+    var temp2 = fetch(testURL)
+    .then(function (response){
+        if (response.ok) {
+            response.json().then(function (data2){                    
+                console.log(data2);
+                lat = data2.coord.lat
+                console.log(lat)
+                lon = data2.coord.lon
+                console.log(lon);
+                city = data2.name
+                
+                var latlonURL = 'http://api.openweathermap.org/data/2.5/onecall?lat=-'+lat+'&lon='+lon+'&exclude=minutely,hourly&appid=f516944114208483a59c1cf67915c8cd'
+                    var temp = fetch(latlonURL)
+                        .then(function (response){
+                            if (response.ok) {
+                                response.json().then(function (data){
+                                    console.log(`temp`, temp);
+                                    console.log(`data`, data);
+                                    windSpeed = data.current.wind_speed + ' ';
+                                    humidity = data.current.humidity + ' ';
+                                    uvIndex = data.current.uvi;
+                                    tempK = data.current.temp;
+                                    tempC = tempK - 273;
+                                    tempF = (tempC*1.8) + 32;
+                                    console.log('tempC', tempC);                    
+                                    date = moment().format('MM/DD/YYYY');
+                                    // icon = data.current.weater.icon;
+                                    var fiveDay = [];
+                                    for (let i = 1; i < 6; i++) {
+                                        $('#temperature'+[i]).text((((data.daily[i].temp.max-273)*1.8)+32).toFixed(2));
+                                        $('#wind'+[i]).text(data.daily[i].wind_speed);
+                                        $('#humidity'+[i]).text(data.daily[i].humidity);
+                                    }
+                                    console.log(data.daily);
+                                    console.log('fivedays of temps', fiveDay);
+                                    dailyWeather();
+                                })
+                            
+                        }
                 })
-            
-        }
-})});
+                })
+            }
+        })
+});
 
 
 function dailyWeather() {
@@ -65,4 +68,7 @@ function dailyWeather() {
     $('#uvIndex').text(uvIndex);    
     $('#cityDate').text(city + '  '+date + ' ');
 }
-
+function getInput() {
+    cityName = $('#cityName').value
+    console.log('cityname GetInput', cityName);
+}
