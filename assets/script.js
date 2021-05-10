@@ -143,7 +143,6 @@ function getOldWeather() {
 // This just does many if else conditionals, and based off the index levels I found on google will apply a background.
 // Whether the text is white or black depends on which should be easiest to read for the user.
 function checkUV(){
-    console.log('this is the uv index',uvIndex);
     colorClass = ''
     $('#uvIndex').removeClass('bg-success bg-yellow bg-danger bg-purple text-white')
 
@@ -158,6 +157,5 @@ function checkUV(){
     } else  {
         colorClass ='bg-purple text-white';        
     }
-    console.log(colorClass)
     $('#uvIndex').addClass(colorClass);
     }
