@@ -62,7 +62,7 @@ function previousSearch() {
     for (let i = 0; i < searchHisotry.length; i++) {
         $('#searchHistory').after($('<button/>', {
             text: searchHisotry[i].city,
-            class: 'btn btn-primary d-flex flex-column historyBtn',
+            class: 'btn btn-primary d-flex flex-column historyBtn bg-secondary w-100 justify-content-between m-3',
             id: i,            
         }))}}
 
@@ -144,10 +144,10 @@ function getOldWeather() {
 function checkUV(){
     console.log('this is the uv index',uvIndex);
     colorClass = ''
-    $('#uvIndex').removeClass('bg-success bg-yellow bg-danger bg-purple')
+    $('#uvIndex').removeClass('bg-success bg-yellow bg-danger bg-purple text-white')
 
     if (uvIndex < 2.49) {
-        colorClass = 'bg-success';        
+        colorClass = 'bg-success text-white';        
     } else if (uvIndex < 5.5 ) {
         colorClass = 'bg-yellow';
     } else if (uvIndex < 7.5 ) {
@@ -155,7 +155,7 @@ function checkUV(){
     } else if (uvIndex < 10.5) {
         colorClass ='bg-danger';
     } else  {
-        colorClass ='bg-purple';        
+        colorClass ='bg-purple text-white';        
     }
     console.log(colorClass)
     $('#uvIndex').addClass(colorClass);

@@ -7,3 +7,8 @@
 .bg-purple {
     background-color: purple;
 }
+.grad {
+    background-image: linear-gradient(to right, blue , indigo);
+    color: white;
+    text-align: center;
+}
