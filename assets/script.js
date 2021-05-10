@@ -6,7 +6,7 @@ var dateTime = null;
 var temperatureF = '';
 var cityName = $('#cityName');
 var apiKey = '&appid=f516944114208483a59c1cf67915c8cd';
-var tempURL = 'http://api.openweathermap.org/data/2.5/onecall?lat=35.99&lon=-78.90&exclude=minutely,hourly&appid=f516944114208483a59c1cf67915c8cd'
+var tempURL = 'https://api.openweathermap.org/data/2.5/onecall?lat=35.99&lon=-78.90&exclude=minutely,hourly&appid=f516944114208483a59c1cf67915c8cd'
 
 // This just cleared the local storage of all the previously searched for cities
 $('#clear').on('click', function(){
@@ -28,7 +28,7 @@ $(document).on('click', '.historyBtn', function(){
 // This will update the card that has the current weather. It uses the variables defined in getWeather function, and pulls the icon for
 //current weather card, and invokes the function to modify the background for the UV index.
 function dailyWeather() {
-    var currentIconURL = 'http://openweathermap.org/img/wn/'+iconCurrent+'@2x.png'
+    var currentIconURL = 'https://openweathermap.org/img/wn/'+iconCurrent+'@2x.png'
     $('#temperature').text(tempF.toFixed(2));
     $('#wind').text(windSpeed);
     $('#humidity').text(humidity);
@@ -77,7 +77,7 @@ function getWeather() {
             lon = data2.coord.lon
                 city = data2.name
                 storeSearch();
-                var latlonURL = 'http://api.openweathermap.org/data/2.5/onecall?lat=-'+lat+'&lon='+lon+'&exclude=minutely,hourly&appid=f516944114208483a59c1cf67915c8cd'
+                var latlonURL = 'https://api.openweathermap.org/data/2.5/onecall?lat=-'+lat+'&lon='+lon+'&exclude=minutely,hourly&appid=f516944114208483a59c1cf67915c8cd'
                 var temp = fetch(latlonURL)
                 .then(function (response){
                     if (response.ok) {
@@ -93,7 +93,7 @@ function getWeather() {
                             var fiveDay = [];
                             for (let i = 1; i < 6; i++) {
                                 icon = data.daily[i].weather[0].icon;
-                                var iconURL = 'http://openweathermap.org/img/wn/'+icon+'@2x.png'
+                                var iconURL = 'https://openweathermap.org/img/wn/'+icon+'@2x.png'
                                         $('#temperature'+[i]).text((((data.daily[i].temp.max-273)*1.8)+32).toFixed(2));
                                         $('#wind'+[i]).text(data.daily[i].wind_speed);
                                         $('#humidity'+[i]).text(data.daily[i].humidity);
@@ -115,7 +115,7 @@ function getOldWeather() {
             lon = data2.coord.lon
                 city = data2.name
                 storeSearch();
-                var latlonURL = 'http://api.openweathermap.org/data/2.5/onecall?lat=-'+lat+'&lon='+lon+'&exclude=minutely,hourly&appid=f516944114208483a59c1cf67915c8cd'
+                var latlonURL = 'https://api.openweathermap.org/data/2.5/onecall?lat=-'+lat+'&lon='+lon+'&exclude=minutely,hourly&appid=f516944114208483a59c1cf67915c8cd'
                 var temp = fetch(latlonURL)
                 .then(function (response){
                     if (response.ok) {
@@ -131,7 +131,7 @@ function getOldWeather() {
                             var fiveDay = [];
                             for (let i = 1; i < 6; i++) {
                                 icon = data.daily[i].weather[0].icon;
-                                var iconURL = 'http://openweathermap.org/img/wn/'+icon+'@2x.png'
+                                var iconURL = 'https://openweathermap.org/img/wn/'+icon+'@2x.png'
                                         $('#temperature'+[i]).text((((data.daily[i].temp.max-273)*1.8)+32).toFixed(2));
                                         $('#wind'+[i]).text(data.daily[i].wind_speed);
                                         $('#humidity'+[i]).text(data.daily[i].humidity);
