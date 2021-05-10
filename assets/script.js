@@ -8,24 +8,25 @@ var cityName = $('#cityName');
 var apiKey = '&appid=f516944114208483a59c1cf67915c8cd';
 var tempURL = 'http://api.openweathermap.org/data/2.5/onecall?lat=35.99&lon=-78.90&exclude=minutely,hourly&appid=f516944114208483a59c1cf67915c8cd'
 
+// This just cleared the local storage of all the previously searched for cities
 $('#clear').on('click', function(){
     localStorage.removeItem('citySearch')
     location.reload();    
 })
+
+//This is the event listener for the search button, it'll invoke getWeather function
 searchBtn[0].addEventListener('click', function(){
     getWeather(); 
 });
-
+// This is the event listener that is on the dynamically generated buttons of previously searched cities.
+// It'll use the id of the button which corresponds for which part of the stored history the city name is
 $(document).on('click', '.historyBtn', function(){
     searchHisotry = JSON.parse(localStorage.getItem('citySearch'));
-    console.log(`history button clicked`);
-    console.log('what is this', this);
     cityHistory = searchHisotry[this.id].city
-    console.log('city', cityHistory);
-    console.log('this id', this.id);
     getOldWeather();
 })
-
+// This will update the card that has the current weather. It uses the variables defined in getWeather function, and pulls the icon for
+//current weather card, and invokes the function to modify the background for the UV index.
 function dailyWeather() {
     var currentIconURL = 'http://openweathermap.org/img/wn/'+iconCurrent+'@2x.png'
     $('#temperature').text(tempF.toFixed(2));
@@ -38,11 +39,7 @@ function dailyWeather() {
     $('#main-body').removeClass('d-none');
     
 }
-function getInput() {
-    cityName = $('#cityName').value
-    console.log('cityname GetInput', cityName);
-}
-
+// This will store the recent search history into the local storage.
 function storeSearch() {
     searchHisotry = JSON.parse(localStorage.getItem('citySearch'));
     if (searchHisotry === null) {
@@ -56,9 +53,8 @@ function storeSearch() {
         }
      localStorage.setItem('citySearch', JSON.stringify(search));   
 }
-
-function previousSearch() {
-    
+// This pulls out the recent search history from the local storage and will dynamically create buttons based off the history.
+function previousSearch() {    
     searchHisotry = JSON.parse(localStorage.getItem('citySearch'));
     $('button').remove('.historyBtn');
     for (let i = 0; i < searchHisotry.length; i++) {
@@ -67,9 +63,9 @@ function previousSearch() {
             class: 'btn btn-primary d-flex flex-column historyBtn bg-secondary w-100 justify-content-between m-3',
             id: i,            
         }))}}
-
+//This takes the value from the input search and will first call using the api for a city. It'll extract the longitude and latitude
+// from that query, and then do a search on those coordinates and pull all the data.
 function getWeather() {
-    console.log('get weather just ran');
     city = cityName[0].value.trim()
     var testURL = 'https://api.openweathermap.org/data/2.5/weather?q='+city+'&units=imperial'+apiKey
     var temp2 = fetch(testURL)
@@ -106,8 +102,9 @@ function getWeather() {
                                     dailyWeather();                                    
                                     previousSearch();
                                 })}})})}})}
-function getOldWeather() {
-    console.log('get old weather just ran'); 
+// This one is the same as getWeather except the input is the different. I know there should be way to not have such
+// duplicate work going on, I just couldn't think of it with the time I had left.
+function getOldWeather() { 
     var testURL = 'https://api.openweathermap.org/data/2.5/weather?q='+cityHistory+'&units=imperial'+apiKey
     var temp2 = fetch(testURL)
     .then(function (response){
@@ -142,7 +139,8 @@ function getOldWeather() {
                                     }
                                     dailyWeather(); 
                                 })}})})}})}
-
+// This just does many if else conditionals, and based off the index levels I found on google will apply a background.
+// Whether the text is white or black depends on which should be easiest to read for the user.
 function checkUV(){
     console.log('this is the uv index',uvIndex);
     colorClass = ''
