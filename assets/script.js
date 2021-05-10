@@ -64,7 +64,8 @@ function previousSearch() {
             id: i,            
         }))}}
 //This takes the value from the input search and will first call using the api for a city. It'll extract the longitude and latitude
-// from that query, and then do a search on those coordinates and pull all the data.
+// from that query, and then do a search on those coordinates and pull all the data. If get time, I should add a condition if the
+// user tries to search nothing, and also if the city they search for returns an error.
 function getWeather() {
     city = cityName[0].value.trim()
     var testURL = 'https://api.openweathermap.org/data/2.5/weather?q='+city+'&units=imperial'+apiKey
