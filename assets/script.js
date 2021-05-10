@@ -35,6 +35,8 @@ function dailyWeather() {
     $('#cityDate').text(city + '  '+date + ' ');
     $('#wicon0').attr('src', currentIconURL);
     checkUV();
+    $('#main-body').removeClass('d-none');
+    
 }
 function getInput() {
     cityName = $('#cityName').value
