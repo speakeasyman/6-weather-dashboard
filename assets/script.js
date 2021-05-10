@@ -25,7 +25,7 @@ searchBtn[0].addEventListener('click', function(){
                 lon = data2.coord.lon
                 console.log(lon);
                 city = data2.name
-                
+                storeSearch();
                 var latlonURL = 'http://api.openweathermap.org/data/2.5/onecall?lat=-'+lat+'&lon='+lon+'&exclude=minutely,hourly&appid=f516944114208483a59c1cf67915c8cd'
                 var temp = fetch(latlonURL)
                 .then(function (response){
@@ -55,7 +55,8 @@ searchBtn[0].addEventListener('click', function(){
                                     }
                                     console.log(data.daily);
                                     console.log('fivedays of temps', fiveDay);
-                                    dailyWeather();
+                                    dailyWeather();                                    
+                                    previousSearch();
                                 })
                             
                         }
@@ -78,4 +79,32 @@ function dailyWeather() {
 function getInput() {
     cityName = $('#cityName').value
     console.log('cityname GetInput', cityName);
+}
+
+function storeSearch() {
+    searchHisotry = JSON.parse(localStorage.getItem('citySearch'));
+    if (searchHisotry === null) {
+        search = [{
+            city: city,
+        }]
+    } else {
+        search = searchHisotry.concat([{
+            city: city,
+        }])
+        }
+     localStorage.setItem('citySearch', JSON.stringify(search));   
+}
+
+function previousSearch() {
+    
+    searchHisotry = JSON.parse(localStorage.getItem('citySearch'));
+    $('button').remove('.searchbtn');
+    for (let i = 0; i < searchHisotry.length; i++) {
+        $('#searchHistory').after($('<button/>', {
+            text: searchHisotry[i].city,
+            class: 'btn btn-primary d-flex flex-column searchbtn',
+            id: 'searchbtn'+i,
+        }))
+        
+    }
 }
