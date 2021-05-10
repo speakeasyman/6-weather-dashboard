@@ -8,10 +8,12 @@ var cityName = $('#cityName');
 var apiKey = '&appid=f516944114208483a59c1cf67915c8cd';
 var tempURL = 'http://api.openweathermap.org/data/2.5/onecall?lat=35.99&lon=-78.90&exclude=minutely,hourly&appid=f516944114208483a59c1cf67915c8cd'
 
-
+$('#clear').on('click', function(){
+    localStorage.removeItem('citySearch')
+    location.reload();    
+})
 searchBtn[0].addEventListener('click', function(){
-    getWeather();
- 
+    getWeather(); 
 });
 
 $(document).on('click', '.historyBtn', function(){
@@ -32,6 +34,7 @@ function dailyWeather() {
     $('#uvIndex').text(uvIndex);    
     $('#cityDate').text(city + '  '+date + ' ');
     $('#wicon0').attr('src', currentIconURL);
+    checkUV();
 }
 function getInput() {
     cityName = $('#cityName').value
@@ -61,11 +64,8 @@ function previousSearch() {
             text: searchHisotry[i].city,
             class: 'btn btn-primary d-flex flex-column historyBtn',
             id: i,            
-        }))
-       
-        
-    }
-}
+        }))}}
+
 function getWeather() {
     console.log('get weather just ran');
     city = cityName[0].value.trim()
@@ -103,14 +103,7 @@ function getWeather() {
                                     }
                                     dailyWeather();                                    
                                     previousSearch();
-                                })
-                            
-                        }
-                })
-                })
-            }
-        })
-}
+                                })}})})}})}
 function getOldWeather() {
     console.log('get old weather just ran'); 
     var testURL = 'https://api.openweathermap.org/data/2.5/weather?q='+cityHistory+'&units=imperial'+apiKey
@@ -145,13 +138,25 @@ function getOldWeather() {
                                         $('#cityDate'+[i]).text(moment().add([i]*1, 'days').format('MM/DD/YYYY'));
                                         $('#wicon'+[i]).attr('src', iconURL);
                                     }
-                                    dailyWeather();                                    
-                                 
-                                })
-                            
-                        }
-                })
-                })
-            }
-        })
-}
+                                    dailyWeather(); 
+                                })}})})}})}
+
+function checkUV(){
+    console.log('this is the uv index',uvIndex);
+    colorClass = ''
+    $('#uvIndex').removeClass('bg-success bg-yellow bg-danger bg-purple')
+
+    if (uvIndex < 2.49) {
+        colorClass = 'bg-success';        
+    } else if (uvIndex < 5.5 ) {
+        colorClass = 'bg-yellow';
+    } else if (uvIndex < 7.5 ) {
+        colorClass ='bg-orange';        
+    } else if (uvIndex < 10.5) {
+        colorClass ='bg-danger';
+    } else  {
+        colorClass ='bg-purple';        
+    }
+    console.log(colorClass)
+    $('#uvIndex').addClass(colorClass);
+    }
